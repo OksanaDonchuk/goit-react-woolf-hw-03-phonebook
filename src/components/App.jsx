@@ -10,6 +10,19 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const localData = localStorage.getItem('contacts');
+    if (localData) {
+      this.setState({ contacts: JSON.parse(localData) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addContact = (name, number) => {
     const { contacts } = this.state;
     const isExist = contacts.some(
